@@ -20,7 +20,7 @@ The PreciousCargo module, therefore, provides convenience methods to encapsulate
 
 ## Examples
 
-    @@@ruby
+    ```ruby
     @data = "This is my precious cargo."
     @keypair = OpenSSL::PKey::RSA.new(2048)
 
@@ -38,8 +38,8 @@ The PreciousCargo module, therefore, provides convenience methods to encapsulate
 
 ## Dependencies
 
-    * Ruby compiled with OpenSSL support.
-    * The gibberish gem.
+* Ruby compiled with OpenSSL support.
+* The gibberish gem.
 
 ## How to run the tests
 
