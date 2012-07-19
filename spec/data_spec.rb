@@ -5,30 +5,21 @@ describe PreciousCargo::Data do
   before do
     @keypair = OpenSSL::PKey::RSA.new(2048)
     @data = Faker::Lorem.paragraphs.join(" ")
-    @secret = "Secret secret, I've got a secret."
+    @secret = "password"
   end
 
   context "#encrypt!" do
     it "encrypts data using the supplied secret" do
-      options = {}
-      options[:secret] = @secret
-      encrypted_data = subject.encrypt!(@data, options)
-
-      options[:secret] = @secret
-      decrypted_data = subject.decrypt!(encrypted_data, options)
-
-      decrypted_data.should == @data
+      encrypted_data = subject.encrypt!(@data, { :secret => @secret })
+      from_openssl = `echo "#{encrypted_data}" | openssl enc -d -aes-256-cbc -a -k password`
+      from_openssl.should == @data
     end
   end
 
   context "#decrypt!" do
     it "decrypts a secret using the supplied secret" do
-      options = {}
-      options[:secret] = @secret
-      encrypted_data = subject.encrypt!(@data, options)
-
-      options[:secret] = @secret
-      subject.decrypt!(encrypted_data, options).should == @data
+      from_openssl = `echo #{@data} | openssl enc -aes-256-cbc -a -k password`
+      subject.decrypt!(from_openssl, { :secret => @secret }).should == @data
     end
   end
 
