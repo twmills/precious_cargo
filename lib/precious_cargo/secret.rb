@@ -5,11 +5,11 @@ module PreciousCargo
       def encrypt!(options = {})
         secret = options.delete(:secret) || Secret.random
         public_key = options.delete(:public_key)
-        public_key.public_encrypt(secret)
+        Base64.encode64(public_key.public_encrypt(secret))
       end
 
       def decrypt!(options = {})
-        encrypted_secret = options.delete(:encrypted_secret)
+        encrypted_secret = Base64.decode64(options.delete(:encrypted_secret))
         keypair = options.delete(:keypair)
         keypair.private_decrypt(encrypted_secret)
       end
