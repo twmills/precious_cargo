@@ -1,4 +1,6 @@
-# PreciousCargo - Secure large (or small) amounts of data for transfer over web services
+# PreciousCargo
+
+Secure large (or small) amounts of data for transfer over web services
 
 ### What is it?
 
