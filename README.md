@@ -20,22 +20,22 @@ The PreciousCargo module, therefore, provides convenience methods to encapsulate
 
 ## Examples
 
-    ```ruby
-    @data = "This is my precious cargo."
-    @keypair = OpenSSL::PKey::RSA.new(2048)
+```ruby
+@data = "This is my precious cargo."
+@keypair = OpenSSL::PKey::RSA.new(2048)
 
-    @encrypted_payload = PreciousCargo.encrypt!(@data, { :public_key => @keypair.public_key })
-    #=> { :encrypted_secret => , :encrypted_data => }
+@encrypted_payload = PreciousCargo.encrypt!(@data, { :public_key => @keypair.public_key })
+#=> { :encrypted_secret => , :encrypted_data => }
 
-    PreciousCargo.decrypt!(@data, { :secret => , :private_key => @keypair.public_key })
-    #=> "This is my precious cargo."
+PreciousCargo.decrypt!(@data, { :secret => , :private_key => @keypair.public_key })
+#=> "This is my precious cargo."
 
-    @encrypted_payload = PreciousCargo.encrypt!(@data, { :secret => 'p@assw0rD', :public_key => @keypair.public_key })
-    #=> { :encrypted_data => }
+@encrypted_payload = PreciousCargo.encrypt!(@data, { :secret => 'p@assw0rD', :public_key => @keypair.public_key })
+#=> { :encrypted_data => }
 
-    PreciousCargo.decrypt!(@data, { :encrypted_secret => , :keypair => @keypair })
-    #=> "This is my precious cargo."
-    ```
+PreciousCargo.decrypt!(@data, { :encrypted_secret => , :keypair => @keypair })
+#=> "This is my precious cargo."
+```
 
 ## Dependencies
 
