@@ -13,11 +13,8 @@ module PreciousCargo
       # Returns the AES encrypted data.
       def encrypt!(data, options = {})
         secret = options.delete(:secret)
-
-        cipher = OpenSSL::Cipher::AES.new(256, :CBC)
-        cipher.encrypt
-        cipher.key = secret
-        Base64.encode64(cipher.update(data) + cipher.final)
+        cipher = Gibberish::AES.new(secret)
+        cipher.encrypt(data)
       end
 
       # Public: Decrypt the supplied data using a secret string. Currently only supports AES 256 encryption.
@@ -28,12 +25,8 @@ module PreciousCargo
       # Returns the AES encrypted data.
       def decrypt!(encrypted_data, options = {})
         secret = options.delete(:secret)
-        encrypted_data = Base64.decode64(encrypted_data)
-
-        decipher = OpenSSL::Cipher::AES.new(256, :CBC)
-        decipher.decrypt
-        decipher.key = secret
-        decipher.update(encrypted_data) + decipher.final
+        cipher = Gibberish::AES.new(secret)
+        cipher.decrypt(encrypted_data).strip
       end
     end
   end
