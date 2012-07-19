@@ -4,7 +4,7 @@ Secure large (or small) amounts of data for transfer over web services
 
 ### What is it?
 
-PreciousCargo encapsulates a specific best practice when encrypting large (or small) amounts of data, normally to transmit over the wire via a web service.
+PreciousCargo encapsulates a specific best practice when encrypting large (or small) amounts of data, normally to transmit over the wire via a web service. The strategy is not really complex, but it wasn't readily apparent when I was looking for a solution. Therefore I wrote this gem to make it convenient to not only apply this strategy, but to also make this best practice more easily discovered (hopefully).
 
 ### The Problem Case
 
