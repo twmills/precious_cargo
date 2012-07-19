@@ -35,6 +35,7 @@ The PreciousCargo module, therefore, provides convenience methods to encapsulate
 
     PreciousCargo.decrypt!(@data, { :encrypted_secret => , :keypair => @keypair })
     #=> "This is my precious cargo."
+    ```
 
 ## Dependencies
 
