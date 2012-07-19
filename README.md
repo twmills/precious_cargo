@@ -24,13 +24,13 @@ The PreciousCargo module, therefore, provides convenience methods to encapsulate
 @data = "This is my precious cargo."
 @keypair = OpenSSL::PKey::RSA.new(2048)
 
-@encrypted_payload = PreciousCargo.encrypt!(@data, { :public_key => @keypair.public_key })
+@payload = PreciousCargo.encrypt!(@data, { :public_key => @keypair.public_key })
 #=> { :encrypted_secret => , :encrypted_data => }
 
 PreciousCargo.decrypt!(@data, { :secret => , :private_key => @keypair.public_key })
 #=> "This is my precious cargo."
 
-@encrypted_payload = PreciousCargo.encrypt!(@data, { :secret => 'p@assw0rD', :public_key => @keypair.public_key })
+@payload = PreciousCargo.encrypt!(@data, { :secret => 'p@assw0rD', :public_key => @keypair.public_key })
 #=> { :encrypted_data => }
 
 PreciousCargo.decrypt!(@data, { :encrypted_secret => , :keypair => @keypair })
@@ -40,7 +40,7 @@ PreciousCargo.decrypt!(@data, { :encrypted_secret => , :keypair => @keypair })
 ## Dependencies
 
 * Ruby compiled with OpenSSL support.
-* The gibberish gem.
+* The [gibberish gem](https://github.com/mdp/gibberish/).
 
 ## How to run the tests
 
