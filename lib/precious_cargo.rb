@@ -1,8 +1,5 @@
+require "gibberish"
 require "precious_cargo/version"
-require "digest/sha2"
-require "openssl"
-require 'base64'
-
 require 'precious_cargo/secret'
 require 'precious_cargo/data'
 
