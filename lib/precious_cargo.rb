@@ -42,6 +42,7 @@ module PreciousCargo
 
 
     def encrypt!(data, options = {})
+      options[:secret]  = PreciousCargo::Secret.random unless options.has_key?(:secret)
       encrypted_data    = PreciousCargo::Data.encrypt!(data, options)
       encrypted_secret  = PreciousCargo::Secret.encrypt!(options)
       { :encrypted_secret => encrypted_secret, :encrypted_data => encrypted_data }
