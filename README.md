@@ -10,7 +10,7 @@ PreciousCargo encapsulates a specific best practice when encrypting large (or sm
 
 PK encryption is typically the preferred encryption method, but it suffers from the limitation that the size of data being encrypted cannot exceed the key size. To get around this approach, yet still take advantage of the excellent encryption method, the data is first encrypted with AES encryption using a secret passphrase. The secret passphrase is then encrypted using the public key from an RSA keychain and both the encrypted secret and encrypted data are sent together as part of the same payload to the client.
 
-The client then uses their private key from the RSA key pair to decrypt the encrypted secret, then use the decrypted secret to decrypt the AES encrypted data.
+The client decrypts the encrypted secret with their private key from the RSA key pair, then uses the decrypted secret to decrypt the AES encrypted data.
 
 The PreciousCargo module, therefore, provides convenience methods to encapsulate these multi-step encryption and decryption processes. Though it is possible to use a "shared secret" to encrypt the data, for extra security the encrypt method will generate a random secret passphrase if one is not explicitly provided.
 
@@ -24,16 +24,18 @@ The PreciousCargo module, therefore, provides convenience methods to encapsulate
 @data = "This is my precious cargo."
 @keypair = OpenSSL::PKey::RSA.new(2048)
 
-@payload = PreciousCargo.encrypt!(@data, { :public_key => @keypair.public_key })
-#=> { :encrypted_secret => , :encrypted_data => }
+# With an auto-generated secret (the preferred method):
+@encrypted_payload = PreciousCargo.encrypt!(@data, :public_key => @keypair.public_key)
+#=> { :encrypted_data => [Base64 encoded string of encrypted data], :encrypted_secret => [Base64 encoded string of the encrypted secret] }
 
-PreciousCargo.decrypt!(@data, { :secret => , :private_key => @keypair.public_key })
+PreciousCargo.decrypt!([Base64 encoded string of encrypted data], :keypair => @keypair, :encrypted_secret => [Base64 encoded string of the encrypted secret])
 #=> "This is my precious cargo."
 
-@payload = PreciousCargo.encrypt!(@data, { :secret => 'p@assw0rD', :public_key => @keypair.public_key })
-#=> { :encrypted_data => }
+# With a supplied secret:
+@encrypted_payload = PreciousCargo.encrypt!(@data, :secret => 'p@assw0rD', :public_key => @keypair.public_key)
+#=> {:encrypted_data => [Base64 encoded string of encrypted data], :encrypted_secret => [Base64 encoded string of the encrypted secret]}
 
-PreciousCargo.decrypt!(@data, { :encrypted_secret => , :keypair => @keypair })
+PreciousCargo.decrypt!([Base64 encoded string of encrypted data], :keypair => @keypair, :encrypted_secret => [Base64 encoded string of the encrypted secret])
 #=> "This is my precious cargo."
 ```
 
