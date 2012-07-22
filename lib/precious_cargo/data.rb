@@ -12,7 +12,7 @@ module PreciousCargo
       #
       # Returns the AES encrypted data.
       def encrypt!(data, options = {})
-        secret = options.delete(:secret)
+        secret = options[:secret]
         cipher = Gibberish::AES.new(secret)
         cipher.encrypt(data)
       end
@@ -24,7 +24,7 @@ module PreciousCargo
       #
       # Returns the AES encrypted data.
       def decrypt!(encrypted_data, options = {})
-        secret = options.delete(:secret)
+        secret = options[:secret]
         cipher = Gibberish::AES.new(secret)
         cipher.decrypt(encrypted_data).strip
       end

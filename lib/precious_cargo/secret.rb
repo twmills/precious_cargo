@@ -14,8 +14,8 @@ module PreciousCargo
       #
       # Returns the RSA encrypted secret as a Base64 encoded string.
       def encrypt!(options = {})
-        secret = options.delete(:secret) || Secret.random
-        public_key = options.delete(:public_key)
+        secret = options[:secret]
+        public_key = options[:public_key]
         Base64.encode64(public_key.public_encrypt(secret))
       end
 
@@ -27,8 +27,8 @@ module PreciousCargo
       #
       # Returns the decrypted secret.
       def decrypt!(options = {})
-        encrypted_secret = Base64.decode64(options.delete(:encrypted_secret))
-        keypair = options.delete(:keypair)
+        encrypted_secret = Base64.decode64(options[:encrypted_secret])
+        keypair = options[:keypair]
         keypair.private_decrypt(encrypted_secret)
       end
 
