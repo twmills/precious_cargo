@@ -5,7 +5,7 @@ describe PreciousCargo::Secret do
   before do
     @keypair = OpenSSL::PKey::RSA.new(2048)
     @public_key = @keypair.public_key
-    @secret = "Secret secret, I've got a secret.'"
+    @secret = "password"
   end
 
   context "#encrypt!" do
@@ -14,21 +14,14 @@ describe PreciousCargo::Secret do
       options[:secret] = @secret
       options[:public_key] = @public_key
       encrypted_secret = subject.encrypt!(options)
-      @keypair.private_decrypt(encrypted_secret).should == @secret
-    end
-
-    it "generates and encrypts a random secret using the supplied public key" do
-      options = {}
-      options[:public_key] = @public_key
-      encrypted_secret = subject.encrypt!(options)
-      @keypair.private_decrypt(encrypted_secret).length.should == 32
+      @keypair.private_decrypt(Base64.decode64(encrypted_secret)).should == @secret
     end
   end
 
   context "#decrypt!" do
     it "decrypts a secret using the supplied keypair" do
       options = {}
-      options[:encrypted_secret] = @public_key.public_encrypt(@secret)
+      options[:encrypted_secret] = Base64.encode64(@public_key.public_encrypt(@secret))
       options[:keypair] = @keypair
       subject.decrypt!(options).should == @secret
     end
