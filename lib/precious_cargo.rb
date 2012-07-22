@@ -49,7 +49,10 @@ module PreciousCargo
     end
 
     def decrypt!(data, options = {})
-      options[:secret] = PreciousCargo::Secret.decrypt!(options)
+      unless options.has_key?(:secret)
+        options[:secret] = PreciousCargo::Secret.decrypt!(options)
+      end
+
       PreciousCargo::Data.decrypt!(data, options)
     end
   end
