@@ -42,10 +42,9 @@ module PreciousCargo
 
 
     def encrypt!(data, options = {})
-      payload = {}
-      payload[:secret] = PreciousCargo::Secret.encrypt!(options)
-      payload[:data] = PreciousCargo::Data.encrypt!(data, options)
-      payload
+      encrypted_data    = PreciousCargo::Data.encrypt!(data, options)
+      encrypted_secret  = PreciousCargo::Secret.encrypt!(options)
+      { :encrypted_secret => encrypted_secret, :encrypted_data => encrypted_data }
     end
 
     def decrypt!(data, options = {})
